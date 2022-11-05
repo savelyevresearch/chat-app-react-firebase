@@ -4,6 +4,9 @@ import VideoStreamingIcon from '../assets/videoStreamingIcon.png';
 import AddUserIcon from '../assets/addUserIcon.png';
 import MoreIcon from '../assets/moreIcon.png';
 
+import Messages from './Messages';
+import Input from './Input';
+
 const Chat = () => {
   return (
     <div className='chat'>
@@ -15,6 +18,8 @@ const Chat = () => {
                 <img src={MoreIcon} alt=''/>
             </div>
         </div>
+        <Messages />
+        <Input />
     </div>
   )
 }
