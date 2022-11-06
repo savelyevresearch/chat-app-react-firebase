@@ -1,29 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react';
+
+import { onSnapshot, doc } from 'firebase/firestore'; 
+
+import { db } from '../firebase';
+
+import { AuthContext } from '../context/AuthContext';
 
 const Chats = () => {
+  const [chats, setChats] = useState([]);
+
+  const { currentUser } = useContext(AuthContext);
+
+  useEffect(() => {
+    const getChats = () => {
+        const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
+            setChats(doc.data());
+        });
+    
+        return () => {
+            unsub();
+        };
+    };
+
+    currentUser.uid && getChats();
+  }, [currentUser.uid]);
+
   return (
     <div className='chats'>
-        <div className='userChat'>
-            <img src='https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80' alt=''/>
-            <div className='userChatInfo'>
-                <span>Elizabeth</span>
-                <p>Hello</p>
+        {Object.entries(chats)?.map((chat) => {
+            <div className='userChat' key={chat[0]}>
+                <img src={chat[1].userInfo.photoURL} alt=''/>
+                <div className='userChatInfo'>
+                    <span>{chat[1].userInfo.displayName}</span>
+                    <p>{chat[1].userInfo.lastMessage?.text}</p>
+                </div>
             </div>
-        </div>
-        <div className='userChat'>
-            <img src='https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80' alt=''/>
-            <div className='userChatInfo'>
-                <span>Anne</span>
-                <p>Hi. How are you?</p>
-            </div>
-        </div>
-        <div className='userChat'>
-            <img src='https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80' alt=''/>
-            <div className='userChatInfo'>
-                <span>Justin</span>
-                <p>What's up! Offer to listen the following history</p>
-            </div>
-        </div>
+        })}
     </div>
   )
 }
