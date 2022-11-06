@@ -7,7 +7,7 @@ import { auth, storage, db } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
   const [error, setError] = useState(false);
@@ -22,8 +22,6 @@ const Register = () => {
       event.target[2].value,
       event.target[3].files[0]
     ];
-
-    /* console.log(displayName, email, password, file); */
 
     try {
       const resultUserAuthObject = await createUserWithEmailAndPassword(auth, email, password);
@@ -55,27 +53,6 @@ const Register = () => {
     } catch (error) {
       setError(true);
     }
-
-    /* createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(
-          `
-          Error code: "${errorCode}"
-          Error message: "${errorMessage}"
-          `
-        );
-        // ..
-      }); */
   };
 
   return (
@@ -95,7 +72,7 @@ const Register = () => {
                 <button>Sign up</button>
                 {error && <span>Something went wrong...</span>}
             </form>
-            <p>Do you already have an account? Login</p>
+            <p>Do you already have an account? <Link to='/signin'>Login</Link></p>
         </div>
     </div>
   )

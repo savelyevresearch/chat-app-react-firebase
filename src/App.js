@@ -22,6 +22,8 @@ function App() {
     if (!currentUser) {
       return <Navigate to='/signin'/>
     }
+
+    return children;
   };
 
   return (
