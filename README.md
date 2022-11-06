@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# Chat App on React.js with using Firebase
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Presentation of the application:
+
+### User's home page
+
+![main-user-page](./assets/main-user-page.png)
+
+### Registration page
+
+![signup-page](./assets/signup-page.png)
+
+### Login page
+
+![signin-page](./assets/signin-page.png)
 
 ## Available Scripts
 
