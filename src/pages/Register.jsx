@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import AddAvatarIcon from '../assets/addAvatarIcon.png';
 
-import { createUserWithEmailAndPassword, updateEmail, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth, storage, db } from '../firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore"; 
