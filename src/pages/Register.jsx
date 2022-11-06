@@ -28,26 +28,27 @@ const Register = () => {
 
       const storageRef = ref(storage, displayName);
 
-      const uploadTask = uploadBytesResumable(storageRef, file);
-
-      uploadTask.on((error) => {
-        setError(true);
-      }, () => {
-        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-          await updateProfile(resultUserAuthObject.user, {
-            displayName,
-            photoURL: downloadURL
-          });
-
-          await setDoc(doc(db, 'users', resultUserAuthObject.user.uid), {
-            uid: resultUserAuthObject.user.uid,
-            displayName,
-            email,
-            photoURL: downloadURL
-          });
-
-          await setDoc(doc(db, 'userChats', resultUserAuthObject.user.uid), {});
-          navigate('/');
+      await uploadBytesResumable(storageRef, file).then(() => {
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          try {
+            await updateProfile(resultUserAuthObject.user, {
+              displayName,
+              photoURL: downloadURL
+            });
+  
+            await setDoc(doc(db, 'users', resultUserAuthObject.user.uid), {
+              uid: resultUserAuthObject.user.uid,
+              displayName,
+              email,
+              photoURL: downloadURL
+            });
+  
+            await setDoc(doc(db, 'userChats', resultUserAuthObject.user.uid), {});
+            navigate('/');
+          } catch (error) {
+            console.log(error);
+            setError(true);
+          }
         });
       });
     } catch (error) {
